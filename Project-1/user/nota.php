@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'koneksi.php';
+include '../koneksi.php';
 
 // Ambil ID pembelian dari URL
 $id_pembelian = $_GET['id'];
@@ -20,9 +20,9 @@ if (!$detail) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Nota Pembelian - PlanetHanduk</title>
+    <title>Nota Pembelian - PlanetJersey</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <style>
         .nota-box {
             background: white;
@@ -133,14 +133,14 @@ if (!$detail) {
                 <button onclick="window.print()" class="btn-detail" style="padding: 12px 25px;">
                     <i class="fa-solid fa-print"></i> Cetak Nota
                 </button>
-                <a href="produk.php" class="btn-cart" style="padding: 12px 25px; text-decoration: none;">
+                <a href="../produk.php" class="btn-cart" style="padding: 12px 25px; text-decoration: none;">
                     Kembali Belanja
                 </a>
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 20px; color: #888;">
-            <p>Terima kasih telah berbelanja di <strong>PlanetHanduk</strong>!</p>
+            <p>Terima kasih telah berbelanja di <strong>PlanetJersey</strong>!</p>
         </div>
     </main>
 

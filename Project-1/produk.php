@@ -15,31 +15,38 @@ $id_kat = isset($_GET['id_kategori']) ? $_GET['id_kategori'] : '';
 if ($keyword !== '') {
     // Jika ada pencarian
     $judul_halaman = "Hasil Pencarian: '$keyword'";
-    $query = "SELECT p.*, k.nama_kategori FROM produk p 
+/*    $query = "SELECT p.*, k.nama_kategori FROM produk p 
               JOIN kategori k ON p.kategori_id = k.id 
-              WHERE p.nama LIKE '%$keyword%' OR p.deskripsi LIKE '%$keyword%'";
+              WHERE p.nama LIKE '%$keyword%' OR p.deskripsi LIKE '%$keyword%'"; */
 } elseif ($id_kat !== '') {
     // Jika ada filter kategori
     $res_kat = mysqli_query($conn, "SELECT nama_kategori FROM kategori WHERE id = '$id_kat'");
     $data_kat = mysqli_fetch_assoc($res_kat);
     $judul_halaman = "Kategori: " . ($data_kat['nama_kategori'] ?? 'Tidak Ditemukan');
-    $query = "SELECT p.*, k.nama_kategori FROM produk p 
+/*    $query = "SELECT p.*, k.nama_kategori FROM produk p 
               JOIN kategori k ON p.kategori_id = k.id 
-              WHERE p.kategori_id = '$id_kat'";
+              WHERE p.kategori_id = '$id_kat'"; */
 } else {
     // Default: Tampilkan semua
     $judul_halaman = "Katalog Produk";
-    $query = "SELECT p.*, k.nama_kategori FROM produk p 
-              JOIN kategori k ON p.kategori_id = k.id";
+    /*$query = "SELECT p.*, k.nama_kategori FROM produk p 
+              JOIN kategori k ON p.kategori_id = k.id";*/
 }
 
+/*
 // 3. Eksekusi Query
 $result = mysqli_query($conn, $query);
+*/
+
+// GANTI DENGAN KODE BERIKUT:
+$id_kategori_param = ($id_kat !== '') ? $id_kat : 0;
+$result = $conn->query("CALL sp_GetAllProducts('$keyword', $id_kategori_param)");
 
 // Cek error SQL jika ada
 if (!$result) {
     die("Query Error: " . mysqli_error($conn));
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +62,7 @@ if (!$result) {
     <header class="main-navbar">
     <div class="nav-container">
         <div class="logo">
-            <a href="index.php">Planet<span>Handuk</span></a>
+            <a href="index.php">Planet<span>Jersey</span></a>
         </div>
 
         <ul class="nav-links">
@@ -75,11 +82,11 @@ if (!$result) {
                 
                 <div class="user-wrapper" style="position: relative;">
                     <?php if(isset($_SESSION['pelanggan'])): ?>
-                        <a href="profil.php" title="Profil Saya">
+                        <a href="user/profil.php" title="Profil Saya">
                             <i class="fa-solid fa-user-check" style="color: #2ed573;"></i>
                         </a>
                     <?php else: ?>
-                        <a href="login_pelanggan.php" title="Login/Daftar">
+                        <a href="user/login_pelanggan.php" title="Login/Daftar">
                             <i class="fa-solid fa-user"></i>
                         </a>
                     <?php endif; ?>
@@ -124,8 +131,8 @@ if (!$result) {
                 <div class="catalog-header">
                     <h2><?php echo $judul_halaman; ?></h2>
                     <div class="header-info">
-            <p>Menampilkan <strong>1-12</strong> dari 50 Produk</p>
-                </div>
+            <p>Menampilkan <strong><?php echo mysqli_num_rows($result); ?></strong>  dari 50 Produk</p>
+                </div> 
                     <div class="header-filter">
                         <label for="sort">Urutkan:</label>
                         <select id="sort" class="sort-select">
@@ -147,9 +154,12 @@ if (!$result) {
                                 <div class="product-info">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
                                         <small><?php echo $row['nama_kategori']; ?></small>
+                                        
+                                        <!-- gak dipake
                                         <small style="color: <?php echo $row['stok'] > 0 ? '#2ed573' : '#ff4757'; ?>; font-weight: bold;">
                                             Stok: <?php echo $row['stok']; ?>
                                         </small>
+                                        -->
                                     </div>
                                     
                                     <h3><?php echo $row['nama']; ?></h3>
@@ -166,6 +176,10 @@ if (!$result) {
                                 </div>
                             </div>
                         <?php endwhile; ?>
+                            <?php 
+                            $result->free(); 
+                            $conn->next_result(); 
+                            ?>
                     <?php else : ?>
                         <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
                             <p>Maaf, produk "<strong><?php echo htmlspecialchars($keyword); ?></strong>" tidak ditemukan.</p>

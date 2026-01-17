@@ -20,7 +20,7 @@ $result_kategori = mysqli_query($conn, $sql_kategori);
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Kategori Produk - PlanetHanduk</title>
+    <title>Kategori Produk - PlanetJersey</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
     <link rel="stylesheet" href="style.css"> </head>
 <body>
@@ -28,7 +28,7 @@ $result_kategori = mysqli_query($conn, $sql_kategori);
     <header class="main-navbar">
     <div class="nav-container">
         <div class="logo">
-            <a href="index.php">Planet<span>Handuk</span></a>
+            <a href="index.php">Planet<span>Jersey</span></a>
         </div>
 
         <ul class="nav-links">
@@ -77,7 +77,7 @@ $result_kategori = mysqli_query($conn, $sql_kategori);
     <main class="container">
         <div class="category-header">
             <h2>Pilih Kategori</h2>
-            <p>Temukan koleksi handuk terbaik berdasarkan kategori Anda</p>
+            <p>Temukan koleksi Jersey terbaik berdasarkan kategori Anda</p>
         </div>
 
             <div class="category-grid">

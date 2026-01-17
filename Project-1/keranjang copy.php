@@ -78,10 +78,24 @@ $total_item = (isset($_SESSION['keranjang'])) ? array_sum($_SESSION['keranjang']
                             </td>
                             <td>Rp <?php echo number_format($pecah['harga'], 0, ',', '.'); ?></td>
                             <td>
-                                <form action="update_keranjang.php" method="post" style="display: flex; gap: 5px;">
+                                <form action="update_keranjang.php" method="post" id="form-qty-<?php echo $id_produk; ?>">
                                     <input type="hidden" name="id_produk" value="<?php echo $id_produk; ?>">
-                                    <input type="number" name="jumlah" value="<?php echo $jumlah; ?>" min="1" max="<?php echo $pecah['stok']; ?>" style="width: 60px; padding: 5px; border-radius: 5px; border: 1px solid #ddd;">
-                                    <button type="submit" class="btn-detail" style="padding: 5px 10px;"><i class="fa-solid fa-rotate"></i></button>
+                                    
+                                    <select name="jumlah" 
+                                            onchange="document.getElementById('form-qty-<?php echo $id_produk; ?>').submit();" 
+                                            style="padding: 8px; border-radius: 5px; border: 1px solid #ddd; cursor: pointer; background: #fff;">
+                                        
+                                        <?php 
+                                        // Membuat pilihan dropdown dari 1 sampai batas maksimal stok
+                                        $batas_stok = $pecah['stok'];
+                                        for ($i = 1; $i <= $batas_stok; $i++): 
+                                        ?>
+                                            <option value="<?php echo $i; ?>" <?php echo ($i == $jumlah) ? 'selected' : ''; ?>>
+                                                <?php echo $i; ?>
+                                            </option>
+                                        <?php endfor; ?>
+                                        
+                                    </select>
                                 </form>
                             </td>
                             <td>Rp <?php echo number_format($subtotal, 0, ',', '.'); ?></td>
@@ -108,6 +122,14 @@ $total_item = (isset($_SESSION['keranjang'])) ? array_sum($_SESSION['keranjang']
             </div>
         <?php endif; ?>
     </main>
-
+<script>
+    // Memberikan efek transparan pada tabel saat sedang proses update
+    document.querySelectorAll('select[name="jumlah"]').forEach(select => {
+        select.addEventListener('change', function() {
+            document.querySelector('.modern-table').style.opacity = '0.5';
+            document.querySelector('.modern-table').style.pointerEvents = 'none';
+        });
+    });
+</script>
 </body>
 </html>

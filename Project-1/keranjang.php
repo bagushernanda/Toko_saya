@@ -2,134 +2,106 @@
 session_start();
 include 'koneksi.php';
 
-// Proteksi: Jika keranjang kosong, arahkan ke produk atau tampilkan pesan nanti
-if (!isset($_SESSION['keranjang']) || empty($_SESSION['keranjang'])) {
-    $keranjang_kosong = true;
-} else {
-    $keranjang_kosong = false;
+// Jika keranjang kosong
+if (empty($_SESSION["keranjang"])) {
+    echo "<script>alert('Keranjang kosong, silakan belanja dulu!');location='produk.php';</script>";
+    exit();
 }
-
-// Hitung total item untuk navbar badge
-$total_item = (isset($_SESSION['keranjang'])) ? array_sum($_SESSION['keranjang']) : 0;
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Keranjang Belanja - PlanetHanduk</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Keranjang Belanja - PlanetJersey</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
     <header class="main-navbar">
         <div class="nav-container">
-            <div class="logo"><a href="index.html">Planet<span>Handuk</span></a></div>
+            <div class="logo"><a href="index.php">Planet<span>Jersey</span></a></div>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="produk.php">Katalog</a></li>
-                <li><a href="kategori.php">Kategori</a></li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="produk.php">Produk</a></li>
             </ul>
-            <div class="nav-icons">
-                <div class="cart-wrapper">
-                    <a href="keranjang.php" class="active">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <?php if($total_item > 0): ?><span class="badge"><?php echo $total_item; ?></span><?php endif; ?>
-                    </a>
-                </div>
-            </div>
         </div>
     </header>
 
-    <main class="container" style="margin-top: 30px;">
-        <h2 style="margin-bottom: 20px;"><i class="fa-solid fa-basket-shopping"></i> Keranjang Belanja</h2>
+    <main class="container" style="padding: 40px 20px;">
+        <h2><i class="fa-solid fa-cart-shopping"></i> Keranjang Belanja</h2>
+        <hr>
 
-        <?php if ($keranjang_kosong): ?>
-            <div style="text-align: center; padding: 100px 0; background: white; border-radius: 15px;">
-                <i class="fa-solid fa-cart-arrow-down" style="font-size: 4rem; color: #ddd;"></i>
-                <p style="margin-top: 20px; color: #888;">Keranjang Anda masih kosong.</p>
-                <a href="produk.php" class="btn-cart" style="display: inline-block; margin-top: 20px; padding: 10px 30px;">Mulai Belanja</a>
-            </div>
-        <?php else: ?>
-            <div style="background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <table class="modern-table">
-                    <thead>
-                        <tr>
-                            <th>Produk</th>
-                            <th>Harga</th>
-                            <th>Jumlah</th>
-                            <th>Subtotal</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                        $total_belanja = 0;
-                        foreach ($_SESSION['keranjang'] as $id_produk => $jumlah): 
-                            $ambil = $conn->query("SELECT * FROM produk WHERE id = '$id_produk'");
-                            $pecah = $ambil->fetch_assoc();
-                            $subtotal = $pecah['harga'] * $jumlah;
-                        ?>
-                        <tr>
-                            <td style="display: flex; align-items: center; gap: 15px;">
-                                <img src="img/<?php echo $pecah['gambar']; ?>" width="70" style="border-radius: 8px;">
-                                <strong><?php echo $pecah['nama']; ?></strong>
-                            </td>
-                            <td>Rp <?php echo number_format($pecah['harga'], 0, ',', '.'); ?></td>
-                            <td>
-                                <form action="update_keranjang.php" method="post" id="form-qty-<?php echo $id_produk; ?>">
-                                    <input type="hidden" name="id_produk" value="<?php echo $id_produk; ?>">
-                                    
-                                    <select name="jumlah" 
-                                            onchange="document.getElementById('form-qty-<?php echo $id_produk; ?>').submit();" 
-                                            style="padding: 8px; border-radius: 5px; border: 1px solid #ddd; cursor: pointer; background: #fff;">
-                                        
-                                        <?php 
-                                        // Membuat pilihan dropdown dari 1 sampai batas maksimal stok
-                                        $batas_stok = $pecah['stok'];
-                                        for ($i = 1; $i <= $batas_stok; $i++): 
-                                        ?>
-                                            <option value="<?php echo $i; ?>" <?php echo ($i == $jumlah) ? 'selected' : ''; ?>>
-                                                <?php echo $i; ?>
-                                            </option>
-                                        <?php endfor; ?>
-                                        
-                                    </select>
-                                </form>
-                            </td>
-                            <td>Rp <?php echo number_format($subtotal, 0, ',', '.'); ?></td>
-                            <td>
-                                <a href="hapus_keranjang.php?id=<?php echo $id_produk; ?>" class="btn-delete-cart" onclick="return confirm('Hapus produk ini dari keranjang?')">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <?php $total_belanja += $subtotal; endforeach; ?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="3" style="text-align: right; padding: 20px;">Total Belanja</th>
-                            <th colspan="2" style="font-size: 20px; color: #ff4757;">Rp <?php echo number_format($total_belanja, 0, ',', '.'); ?></th>
-                        </tr>
-                    </tfoot>
-                </table>
+        <table class="table" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr style="background: #f8f9fa; text-align: left;">
+                    <th style="padding: 15px; border-bottom: 2px solid #ddd;">No</th>
+                    <th style="padding: 15px; border-bottom: 2px solid #ddd;">Produk</th>
+                    <th style="padding: 15px; border-bottom: 2px solid #ddd;">Varian</th>
+                    <th style="padding: 15px; border-bottom: 2px solid #ddd;">Harga</th>
+                    <th style="padding: 15px; border-bottom: 2px solid #ddd;">Jumlah</th>
+                    <th style="padding: 15px; border-bottom: 2px solid #ddd;">Subtotal</th>
+                    <th style="padding: 15px; border-bottom: 2px solid #ddd;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                $nomor = 1;
+                $total_belanja = 0;
+                foreach ($_SESSION["keranjang"] as $id_variasi => $jumlah): 
+                    // Ambil detail berdasarkan ID Variasi
+                    $ambil = $conn->query("SELECT p.nama, p.harga, p.gambar, v.warna, v.ukuran 
+                                           FROM produk_variasi v 
+                                           JOIN produk p ON v.id_produk = p.id 
+                                           WHERE v.id_variasi = '$id_variasi'");
+                    $pecah = $ambil->fetch_assoc();
+                    
+                    // Jika data tidak ditemukan di DB (misal variasi dihapus admin), hapus dari session
+                    if (!$pecah) {
+                        unset($_SESSION["keranjang"][$id_variasi]);
+                        continue;
+                    }
 
-                <div style="display: flex; justify-content: space-between; margin-top: 30px;">
-                    <a href="produk.php" class="btn-detail" style="padding: 12px 25px;">Lanjut Belanja</a>
-                    <a href="checkout.php" class="btn-cart" style="padding: 12px 40px;">Checkout Sekarang <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-        <?php endif; ?>
+                    $subharga = $pecah["harga"] * $jumlah;
+                ?>
+                <tr>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;"><?php echo $nomor; ?></td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">
+                        <img src="img/<?php echo $pecah['gambar']; ?>" width="50" style="border-radius: 5px; vertical-align: middle; margin-right: 10px;">
+                        <?php echo $pecah['nama']; ?>
+                    </td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">
+                        <span style="background: #eee; padding: 5px 10px; border-radius: 15px; font-size: 12px;">
+                            <?php echo $pecah['warna']; ?> | <?php echo $pecah['ukuran']; ?>
+                        </span>
+                    </td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">Rp <?php echo number_format($pecah['harga']); ?></td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;"><?php echo $jumlah; ?></td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">Rp <?php echo number_format($subharga); ?></td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">
+                        <a href="hapus-keranjang.php?id=<?php echo $id_variasi; ?>" style="color: #ff4757;"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+                <?php 
+                    $nomor++; 
+                    $total_belanja += $subharga;
+                endforeach; 
+                ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="5" style="padding: 15px; text-align: right;">Total Belanja</th>
+                    <th colspan="2" style="padding: 15px; text-align: left; font-size: 20px; color: #ff4757;">Rp <?php echo number_format($total_belanja); ?></th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div style="margin-top: 30px; display: flex; gap: 15px;">
+            <a href="produk.php" style="padding: 12px 25px; border: 1px solid #ff4757; color: #ff4757; text-decoration: none; border-radius: 8px;">Lanjut Belanja</a>
+            <a href="checkout.php" style="padding: 12px 25px; background: #ff4757; color: #fff; text-decoration: none; border-radius: 8px;">Checkout Sekarang</a>
+        </div>
     </main>
-<script>
-    // Memberikan efek transparan pada tabel saat sedang proses update
-    document.querySelectorAll('select[name="jumlah"]').forEach(select => {
-        select.addEventListener('change', function() {
-            document.querySelector('.modern-table').style.opacity = '0.5';
-            document.querySelector('.modern-table').style.pointerEvents = 'none';
-        });
-    });
-</script>
+
 </body>
 </html>

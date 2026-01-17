@@ -14,7 +14,7 @@ if (isset($_SESSION['keranjang'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlanetHanduk - Toko Handuk Berkualitas</title>
+    <title>PlanetJersey - Toko Jersey Berkualitas</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -22,7 +22,7 @@ if (isset($_SESSION['keranjang'])) {
 
     <header class="main-navbar">
         <div class="nav-container">
-            <div class="logo"><a href="index.php">Planet<span>Handuk</span></a></div>
+            <div class="logo"><a href="index.php">Planet<span>Jersey</span></a></div>
             <ul class="nav-links">
                 <li><a href="index.php" class="active">Home</a></li>
                 <li><a href="produk.php">Produk</a></li>
@@ -66,7 +66,7 @@ if (isset($_SESSION['keranjang'])) {
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Koleksi Handuk Premium 2024</h1>
+            <h1>Koleksi Jersey Premium 2024</h1>
             <p>Rasakan kelembutan kualitas hotel bintang 5 setiap hari di rumah Anda.</p>
             <a href="produk.php" class="btn">Belanja Sekarang</a>
         </div>
@@ -124,7 +124,7 @@ if (isset($_SESSION['keranjang'])) {
 </section>
 </main>
     <footer style="text-align: center; padding: 50px 0; color: #a4b0be; font-size: 14px;">
-        <p>&copy; 2024 PlanetHanduk. All rights reserved.</p>
+        <p>&copy; 2024 PlanetJersey. All rights reserved.</p>
     </footer>
 
 </body>

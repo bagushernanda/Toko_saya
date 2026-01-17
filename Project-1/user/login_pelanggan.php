@@ -1,6 +1,6 @@
 <?php 
 session_start(); 
-include 'koneksi.php'; 
+include '../koneksi.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -9,7 +9,7 @@ include 'koneksi.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - PlanetHanduk</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="../auth.css">
 </head>
 <body class="auth-body-bg">
     <div class="auth-container">
