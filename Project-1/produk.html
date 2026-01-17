@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Produk - IndoStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">Planet<span>Handuk</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html" class="active">Produk</a></li>
+                <li><a href="#">Kategori</a></li>
+            </ul>
+            <div class="nav-icons">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="product-container">
+        <aside class="sidebar">
+            <h3>Filter</h3>
+            <div class="filter-group">
+                <h4>Kategori</h4>
+                <ul>
+                    <li><input type="checkbox"> Elektronik</li>
+                    <li><input type="checkbox"> Fashion</li>
+                    <li><input type="checkbox"> Aksesoris</li>
+                </ul>
+            </div>
+            <div class="filter-group">
+                <h4>Rentang Harga</h4>
+                <input type="range" min="0" max="2000000" step="50000">
+                <p>Rp 0 - Rp 2jt+</p>
+            </div>
+            <button class="btn-filter">Terapkan</button>
+        </aside>
+
+        <section class="catalog">
+            <div class="catalog-header">
+                <p>Menampilkan 1-12 dari 50 Produk</p>
+                <select class="sort-select">
+                    <option>Terbaru</option>
+                    <option>Harga Terendah</option>
+                    <option>Harga Tertinggi</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img"><a href="detail.html"><img src="https://via.placeholder.com/250" alt="Produk"></a></div>
+                    <div class="product-info">
+                        <h3>Headphone Wireless</h3>
+                        <p class="price">Rp 550.000</p>
+                        <button class="add-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img"><img src="https://via.placeholder.com/250" alt="Produk"></div>
+                    <div class="product-info">
+                        <h3>Keyboard Mekanik</h3>
+                        <p class="price">Rp 890.000</p>
+                        <button class="add-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                </div>
+
+            <div class="pagination">
+                <span class="active">1</span>
+                <span>2</span>
+                <span>3</span>
+                <span><i class="fas fa-chevron-right"></i></span>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

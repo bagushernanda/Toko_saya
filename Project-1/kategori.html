@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategori Produk - IndoStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">Indo<span>Store</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk</a></li>
+                <li><a href="kategori.html" class="active">Kategori</a></li>
+            </ul>
+            <div class="nav-icons">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="category-header">
+            <h2>Pilih Kategori</h2>
+            <p>Temukan produk terbaik berdasarkan kategori yang Anda cari</p>
+        </div>
+
+        <div class="category-grid">
+            <a href="produk.html?cat=fashion" class="category-card">
+                <img src="https://images.unsplash.com/photo-1445205170230-053b830c6050?auto=format&fit=crop&w=500&q=80" alt="Fashion">
+                <div class="category-overlay">
+                    <i class="fas fa-tshirt"></i>
+                    <h3>Fashion</h3>
+                    <span>120+ Produk</span>
+                </div>
+            </a>
+
+            <a href="produk.html?cat=electronics" class="category-card">
+                <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=500&q=80" alt="Elektronik">
+                <div class="category-overlay">
+                    <i class="fas fa-laptop"></i>
+                    <h3>Elektronik</h3>
+                    <span>85 Produk</span>
+                </div>
+            </a>
+
+            <a href="produk.html?cat=sports" class="category-card">
+                <img src="https://images.unsplash.com/photo-1461896756981-93e87e12c119?auto=format&fit=crop&w=500&q=80" alt="Olahraga">
+                <div class="category-overlay">
+                    <i class="fas fa-running"></i>
+                    <h3>Olahraga</h3>
+                    <span>50 Produk</span>
+                </div>
+            </a>
+
+            <a href="produk.html?cat=home" class="category-card">
+                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=500&q=80" alt="Peralatan Rumah">
+                <div class="category-overlay">
+                    <i class="fas fa-home"></i>
+                    <h3>Rumah Tangga</h3>
+                    <span>200+ Produk</span>
+                </div>
+            </a>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+/* auth.css - Khusus Halaman Login & Daftar */
+:root {
+    --primary-color: #ff4757;
+    --text-dark: #2f3542;
+    --text-muted: #a4b0be;
+    --bg-gradient: linear-gradient(135deg, #f1f2f6 0%, #dfe4ea 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+body.auth-body-bg {
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 420px;
+    perspective: 1000px;
+}
+
+.auth-card {
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.auth-header {
+    background: var(--primary-color);
+    padding: 40px 30px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.auth-header h2 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.auth-header p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.auth-content {
+    padding: 40px;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 16px;
+    color: var(--text-muted);
+    transition: 0.3s;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    border: 2px solid #f1f2f6;
+    border-radius: 12px;
+    font-size: 15px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(255, 71, 87, 0.1);
+}
+
+.input-wrapper input:focus + i {
+    color: var(--primary-color);
+}
+
+.btn-submit {
+    width: 100%;
+    background: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(255, 71, 87, 0.2);
+}
+
+.btn-submit:hover {
+    background: #ff6b81;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(255, 71, 87, 0.3);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.auth-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.back-home {
+    display: inline-block;
+    margin-top: 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+    text-decoration: none;
+}
