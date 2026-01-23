@@ -141,7 +141,7 @@ if (isset($_SESSION['keranjang'])) {
                         </div>
 
                         <button type="submit" name="beli" id="btn-submit" class="btn-beli" disabled>
-                            <i class="fa-solid fa-cart-shopping"></i> Tambah ke Keranjang
+                            <i class="fa-solid fa-cart-shopping"></i> Beli Langsung
                         </button>
                     </form>
                 </div>

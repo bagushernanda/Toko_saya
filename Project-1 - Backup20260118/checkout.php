@@ -38,7 +38,6 @@ foreach ($_SESSION['keranjang'] as $id_variasi => $jumlah) {
     <meta charset="UTF-8">
     <title>Checkout - PlanetJersey</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background-color: #f4f7f6; }
@@ -94,7 +93,7 @@ foreach ($_SESSION['keranjang'] as $id_variasi => $jumlah) {
                 <div class="card">
                     <div class="card-title"><i class="fa-solid fa-box" style="color: #ff4757;"></i> Detail Item</div>
                     <?php foreach ($_SESSION["keranjang"] as $id_variasi => $jumlah): 
-                        $ambil = $conn->query("SELECT p.nama, p.harga, v.variasi, v.ukuran 
+                        $ambil = $conn->query("SELECT p.nama, p.harga, v.warna, v.ukuran 
                                                FROM produk_variasi v 
                                                JOIN produk p ON v.id_produk = p.id 
                                                WHERE v.id_variasi = '$id_variasi'");
@@ -103,7 +102,7 @@ foreach ($_SESSION['keranjang'] as $id_variasi => $jumlah) {
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0;">
                         <div>
                             <strong><?php echo $pecah['nama']; ?></strong><br>
-                            <small style="color: #777;">Varian: <?php echo $pecah['variasi']; ?> | <?php echo $pecah['ukuran']; ?></small>
+                            <small style="color: #777;">Varian: <?php echo $pecah['warna']; ?> | <?php echo $pecah['ukuran']; ?></small>
                         </div>
                         <div style="text-align: right;">
                             <span><?php echo $jumlah; ?> x </span>
@@ -131,21 +130,6 @@ foreach ($_SESSION['keranjang'] as $id_variasi => $jumlah) {
                     </div>
                     <p style="font-size: 0.8rem; color: #888; margin: 15px 0;">* Dengan mengklik tombol di bawah, Anda setuju dengan syarat dan ketentuan PlanetJersey.</p>
                     <button type="submit" form="form-checkout" name="checkout" class="btn-order">PESAN SEKARANG</button>
-                    <a href="keranjang.php" class="btn-back" style="
-                        display: block; 
-                        text-align: center; 
-                        margin-top: 10px; 
-                        padding: 12px; 
-                        background: #f1f2f6; 
-                        color: #2f3542; 
-                        text-decoration: none; 
-                        border-radius: 8px; 
-                        font-weight: bold; 
-                        font-size: 0.9rem; 
-                        transition: 0.3s;
-                        border: 1px solid #dfe4ea;">
-                        <i class="fa-solid fa-arrow-left"></i> KEMBALI KE KERANJANG
-                    </a>
                 </div>
             </div>
         </div>

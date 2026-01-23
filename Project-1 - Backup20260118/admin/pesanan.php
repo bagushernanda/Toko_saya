@@ -14,34 +14,15 @@ if (!isset($_SESSION['admin'])) {
     <title>Manajemen Pesanan - Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="admin-style.css">
 </head>
-<body>
+<body style="background: #f1f2f6; padding: 30px;">
 
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3>Planet<span>Jersey</span></h3>
-            <small style="opacity: 0.5;">Administrator Panel</small>
-        </div>
-        
-        <div class="nav-menu">
-            <a href="index.php"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-            <a href="produk.php"><i class="fa-solid fa-box"></i> Kelola Produk</a>
-            <a href="kategori.php"><i class="fa-solid fa-list"></i> Kategori</a>
-            <a href="pesanan.php" class="active"><i class="fa-solid fa-cart-shopping"></i> Pesanan Masuk</a>
-            <a href="../produk.php" target="_blank"><i class="fa-solid fa-globe"></i> Lihat Toko</a>
-        </div>
-
-        <div class="logout-section">
-            <a href="logout.php" class="btn-logout" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
-            </a>
-        </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2><i class="fa-solid fa-cart-arrow-down"></i> Pesanan Masuk</h2>
+        <a href="index.php" style="text-decoration:none; color:#2f3542;"><i class="fa-solid fa-house"></i> Dashboard</a>
     </div>
 
-<div class="main-content">
-        <div class="top-bar"><h2>Pesanan Masuk</h2></div>
-    <div class="table-container">
+    <div style="background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
         <table class="modern-table" style="width: 100%; border-collapse: collapse;">
             <thead>
                 <tr style="text-align: left; border-bottom: 2px solid #f1f2f6;">
@@ -82,6 +63,6 @@ if (!isset($_SESSION['admin'])) {
             </tbody>
         </table>
     </div>
-</div>
+
 </body>
 </html>

@@ -51,7 +51,7 @@ if (empty($_SESSION["keranjang"])) {
                 $total_belanja = 0;
                 foreach ($_SESSION["keranjang"] as $id_variasi => $jumlah): 
                     // Ambil detail berdasarkan ID Variasi
-                    $ambil = $conn->query("SELECT p.nama, p.harga, p.gambar, v.variasi, v.ukuran 
+                    $ambil = $conn->query("SELECT p.nama, p.harga, p.gambar, v.warna, v.ukuran 
                                            FROM produk_variasi v 
                                            JOIN produk p ON v.id_produk = p.id 
                                            WHERE v.id_variasi = '$id_variasi'");
@@ -73,14 +73,14 @@ if (empty($_SESSION["keranjang"])) {
                     </td>
                     <td style="padding: 15px; border-bottom: 1px solid #eee;">
                         <span style="background: #eee; padding: 5px 10px; border-radius: 15px; font-size: 12px;">
-                            <?php echo $pecah['variasi']; ?> | <?php echo $pecah['ukuran']; ?>
+                            <?php echo $pecah['warna']; ?> | <?php echo $pecah['ukuran']; ?>
                         </span>
                     </td>
                     <td style="padding: 15px; border-bottom: 1px solid #eee;">Rp <?php echo number_format($pecah['harga']); ?></td>
                     <td style="padding: 15px; border-bottom: 1px solid #eee;"><?php echo $jumlah; ?></td>
                     <td style="padding: 15px; border-bottom: 1px solid #eee;">Rp <?php echo number_format($subharga); ?></td>
                     <td style="padding: 15px; border-bottom: 1px solid #eee;">
-                        <a href="hapus_keranjang.php?id=<?php echo $id_variasi; ?>" style="color: #ff4757;"><i class="fa-solid fa-trash"></i></a>
+                        <a href="hapus-keranjang.php?id=<?php echo $id_variasi; ?>" style="color: #ff4757;"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>
                 <?php 

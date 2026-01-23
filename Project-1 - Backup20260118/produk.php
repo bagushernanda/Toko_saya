@@ -1,46 +1,47 @@
 <?php 
 session_start();
+// Memanggil file koneksi
 include 'koneksi.php'; 
-
-$total_item = isset($_SESSION['keranjang']) ? array_sum($_SESSION['keranjang']) : 0;
-
-// 1. Ambil input filter dari URL
+// Hitung total item di keranjang
+$total_item = 0;
+if (isset($_SESSION['keranjang'])) {
+    $total_item = array_sum($_SESSION['keranjang']);
+}
+// 1. Ambil kata kunci dari URL
 $keyword = isset($_GET['keyword']) ? mysqli_real_escape_string($conn, $_GET['keyword']) : '';
 $id_kat = isset($_GET['id_kategori']) ? $_GET['id_kategori'] : '';
-$min_harga = isset($_GET['min_harga']) ? (int)$_GET['min_harga'] : 0;
-$max_harga = isset($_GET['max_harga']) ? (int)$_GET['max_harga'] : 5000000; // Default 5jt
 
-// 2. Judul Halaman Dinamis
+// 2. Logika Query Dinamis
 if ($keyword !== '') {
+    // Jika ada pencarian
     $judul_halaman = "Hasil Pencarian: '$keyword'";
+/*    $query = "SELECT p.*, k.nama_kategori FROM produk p 
+              JOIN kategori k ON p.kategori_id = k.id 
+              WHERE p.nama LIKE '%$keyword%' OR p.deskripsi LIKE '%$keyword%'"; */
 } elseif ($id_kat !== '') {
+    // Jika ada filter kategori
     $res_kat = mysqli_query($conn, "SELECT nama_kategori FROM kategori WHERE id = '$id_kat'");
     $data_kat = mysqli_fetch_assoc($res_kat);
     $judul_halaman = "Kategori: " . ($data_kat['nama_kategori'] ?? 'Tidak Ditemukan');
+/*    $query = "SELECT p.*, k.nama_kategori FROM produk p 
+              JOIN kategori k ON p.kategori_id = k.id 
+              WHERE p.kategori_id = '$id_kat'"; */
 } else {
+    // Default: Tampilkan semua
     $judul_halaman = "Semua Produk";
+    /*$query = "SELECT p.*, k.nama_kategori FROM produk p 
+              JOIN kategori k ON p.kategori_id = k.id";*/
 }
 
-// 3. Eksekusi Stored Procedure dengan parameter filter
+/*
+// 3. Eksekusi Query
+$result = mysqli_query($conn, $query);
+*/
+
+// GANTI DENGAN KODE BERIKUT:
 $id_kategori_param = ($id_kat !== '') ? $id_kat : 0;
-//$result = $conn->query("CALL sp_GetAllProducts('$keyword', $id_kategori_param)");
+$result = $conn->query("CALL sp_GetAllProducts('$keyword', $id_kategori_param)");
 
-// Catatan: Pastikan sp_GetAllProducts Anda sudah mendukung filter harga, 
-// jika belum, gunakan query manual atau update SP tersebut.
-
-// Query Manual sebagai alternatif jika SP belum mendukung filter harga
-$query = "SELECT p.*, k.nama_kategori FROM produk p 
-          JOIN kategori k ON p.kategori_id = k.id 
-          WHERE p.harga BETWEEN $min_harga AND $max_harga";
-
-if ($keyword !== '') {
-    $query .= " AND (p.nama LIKE '%$keyword%' OR p.deskripsi LIKE '%$keyword%')";
-}
-if ($id_kat !== '') {
-    $query .= " AND p.kategori_id = '$id_kat'";
-}
-
-$result = $conn->query($query);
 // Cek error SQL jika ada
 if (!$result) {
     die("Query Error: " . mysqli_error($conn));
@@ -109,61 +110,22 @@ if (!$result) {
 
     <main class="product-container">
         <aside class="sidebar">
-            <form action="produk.php" method="get">
-                <input type="hidden" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>">
-                
-                <h3>Filter</h3>
-                
-                <div class="filter-group">
-                    <h4>Kategori</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li>
-                            <label>
-                                <input type="radio" name="id_kategori" value="" <?php echo ($id_kat == '') ? 'checked' : ''; ?>> Semua Kategori
-                            </label>
-                        </li>
-                        <?php 
-                        // Ambil data kategori dari database
-                        $ambil_kategori = $conn->query("SELECT * FROM kategori");
-                        while($kat = $ambil_kategori->fetch_assoc()):
-                        ?>
-                        <li>
-                            <label>
-                                <input type="radio" name="id_kategori" value="<?php echo $kat['id']; ?>" 
-                                <?php echo ($id_kat == $kat['id']) ? 'checked' : ''; ?>> 
-                                <?php echo $kat['nama_kategori']; ?>
-                            </label>
-                        </li>
-                        <?php endwhile; ?>
-                    </ul>
-                </div>
-
-                <div class="filter-group">
-                    <h4>Rentang Harga</h4>
-                    <div style="display: flex; flex-direction: column; gap: 5px;">
-                        <label style="font-size: 0.8rem; color: #747d8c;">Min: Rp <span id="val-min">0</span></label>
-                        <input type="range" name="min_harga" min="0" max="1000000" step="50000" value="<?php echo $min_harga; ?>" oninput="updatePriceLabel()">
-                        
-                        <label style="font-size: 0.8rem; color: #747d8c;">Max: Rp <span id="val-max">2.000.000</span></label>
-                        <input type="range" name="max_harga" min="0" max="5000000" step="100000" value="<?php echo $max_harga; ?>" oninput="updatePriceLabel()">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-filter" style="width: 100%; margin-top: 15px;">Terapkan</button>
-                <a href="produk.php" style="display: block; text-align: center; margin-top: 10px; font-size: 0.8rem; color: #ff4757; text-decoration: none;">Reset Filter</a>
-            </form>
+            <h3>Filter</h3>
+            <div class="filter-group">
+                <h4>Kategori</h4>
+                <ul>
+                    <li><input type="checkbox"> Elektronik</li>
+                    <li><input type="checkbox"> Fashion</li>
+                    <li><input type="checkbox"> Aksesoris</li>
+                </ul>
+            </div>
+            <div class="filter-group">
+                <h4>Rentang Harga</h4>
+                <input type="range" min="0" max="2000000" step="50000">
+                <p>Rp 0 - Rp 2jt+</p>
+            </div>
+            <button class="btn-filter">Terapkan</button>
         </aside>
-
-        <script>
-        function updatePriceLabel() {
-            const min = document.getElementsByName('min_harga')[0].value;
-            const max = document.getElementsByName('max_harga')[0].value;
-            document.getElementById('val-min').innerText = new Intl.NumberFormat('id-ID').format(min);
-            document.getElementById('val-max').innerText = new Intl.NumberFormat('id-ID').format(max);
-        }
-        // Jalankan saat halaman dimuat
-        updatePriceLabel();
-        </script>
 
         <section class="catalog">
                 <div class="catalog-header">
@@ -204,9 +166,9 @@ if (!$result) {
                                     <p class="price">Rp <?php echo number_format($row['harga'], 0, ',', '.'); ?></p>
                                     
                                     <div class="action-buttons">
-                                        <a href="detail_langsung.php?id=<?php echo $row['id']; ?>" class="btn-detail">   Langsung</a>
+                                        <a href="detail.php?id=<?php echo $row['id']; ?>" class="btn-detail">Detail</a>
                                         <?php if($row['stok'] > 0): ?>
-                                            <a href="detail.php?id=<?php echo $row['id']; ?>" class="btn-cart">+ Keranjang</a>
+                                            <a href="beli.php?id=<?php echo $row['id']; ?>" class="btn-cart">+ Keranjang</a>
                                         <?php else: ?>
                                             <button class="btn-cart" style="background: #ccc; cursor: not-allowed;" disabled>Habis</button>
                                         <?php endif; ?>
